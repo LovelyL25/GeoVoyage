@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery Flickr JSON call</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+// Don't execute any code until the DOM is ready!
+$(document).ready(function(){					
+						   			   
+	$.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=9a3dd8b211e11ee58484ea22aa98f85b&tags=travel&accuracy=11&media=photos&has_geo=1&extras=geo&format=json&jsoncallback=?", function(data){													
+		
+		var htmlString = "<ul>";
+		
+		// Now start cycling through our array of Flickr photo details
+		$.each(data.photos.photo, function(i,item){
+			var src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
+			var s =  '<img alt="'+ item.title + '"src="' + src + '"/>'  ;
+			$(s).appendTo("#images");
+		});
+	});
+	
+// The end of our jQuery function	
+});
+</script>
+<style>
+#images {
+	padding: 			0;
+	margin: 			0;
+	height: 			100%;
+	width: 				100%;
+	overflow:			hidden;
+}	
+
+#images img {
+	width: 250px;
+	height: 200px;
+	border: solid 3px;
+	border-color: white;
+}
+
+@media only screen and (max-width: 480px) {
+	#images img {
+		width: 100%;
+	}
+}
+
+</style>
+</head>
+<body>
+<div id="images"></div>
+</body>
+</html>
